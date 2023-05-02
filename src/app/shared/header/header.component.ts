@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { Usuario } from '../../models/usuario.model';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-header',
@@ -9,11 +10,17 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class HeaderComponent implements OnInit {
 
+  public usuario: Usuario;
+
   constructor(
     private usuarioService: UsuarioService
-  ) { }
-
+  ) { 
+    //no hace falta poner imagenUrl() porque es un get
+    this.usuario = this.usuarioService.usuario;
+  }
+  
   ngOnInit(): void {
+    
   }
 
   logout(){

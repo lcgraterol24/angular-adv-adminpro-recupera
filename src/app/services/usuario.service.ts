@@ -8,6 +8,7 @@ import { registerForm } from "../interfaces/register-form-interfaces";
 import { LoginForm } from "../interfaces/login-form-interface";
 import { Observable, of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { Usuario } from "../models/usuario.model";
 
 declare const google: any;
 const base_url = environment.base_url;
@@ -16,6 +17,8 @@ const base_url = environment.base_url;
   providedIn: 'root'
 })
 export class UsuarioService {
+
+  public usuario: Usuario;
 
   constructor(
     private http: HttpClient,
@@ -53,10 +56,26 @@ export class UsuarioService {
       }
     }).pipe(
       tap((resp:any)=>{
-        localStorage.setItem('token', resp.token)
+        localStorage.setItem('token', resp.token);
+
+        //como desestructurar la instancia del usuario * mejor practica*
+        const {
+          email,
+          google,
+          nombre,
+          role,
+          img,
+          uid
+        } = resp.usuario;
+
+        this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
+       
+
       }),
       map(resp=> true),
-      catchError(error => of(false))
+      catchError(error => {
+        return of(false)
+      })
     );
   }
 
