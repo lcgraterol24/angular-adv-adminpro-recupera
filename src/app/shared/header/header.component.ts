@@ -11,12 +11,14 @@ import { UsuarioService } from '../../services/usuario.service';
 export class HeaderComponent implements OnInit {
 
   public usuario: Usuario;
+  public imgUrl = '';
 
   constructor(
     private usuarioService: UsuarioService
   ) { 
     //no hace falta poner imagenUrl() porque es un get
-    this.usuario = this.usuarioService.usuario;
+    this.imgUrl = usuarioService.usuario.imagenUrl;
+    this.usuario = usuarioService.usuario;
   }
   
   ngOnInit(): void {

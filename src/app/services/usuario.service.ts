@@ -18,6 +18,7 @@ const base_url = environment.base_url;
 })
 export class UsuarioService {
 
+  //Instancia de la clase usuario 
   public usuario: Usuario;
 
   constructor(
@@ -25,6 +26,15 @@ export class UsuarioService {
     private router: Router,
     private ngZone: NgZone
   ) { }
+
+
+  get token():string{
+    return localStorage.getItem('token') || '';
+  }
+
+  get uid():string{
+    return this.usuario.uid || '';
+  }
 
 
   logout(){
@@ -48,31 +58,36 @@ export class UsuarioService {
 
   //validacion token - guard
   validarToken(): Observable<Boolean>{
-    const token = localStorage.getItem('token') || '';
 
     return this.http.get(`${base_url}/login/renew`,{
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(
-      tap((resp:any)=>{
+      map((resp:any)=>{
         localStorage.setItem('token', resp.token);
 
         //como desestructurar la instancia del usuario * mejor practica*
         const {
-          email,
-          google,
-          nombre,
-          role,
-          img,
-          uid
+        email,
+        google,
+        img='',
+        nombre,
+        role,
+        uid,
         } = resp.usuario;
 
-        this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
-       
+        this.usuario = new Usuario(nombre,
+          email,
+          google,
+          img,
+          role,
+          uid);
+      
+          return true;
 
       }),
-      map(resp=> true),
+      
       catchError(error => {
         return of(false)
       })
@@ -88,6 +103,16 @@ export class UsuarioService {
                               }
                             )
                           );
+  }
+
+  actualizarPerfilUsuario(data:{ email: string, nombre: string, role: string}){
+
+    data = {
+      ...data,
+      role: this.usuario.role
+    }
+    
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {headers: {'x-token': this.token}})
   }
 
   login(formData: LoginForm){

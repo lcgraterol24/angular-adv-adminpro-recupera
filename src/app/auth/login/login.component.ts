@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         //quiere grabarlo en el localstorage
         localStorage.setItem('email', this.loginForm.get('email').value);
       }else{
-        localStorage.removeItem('email');
+        // localStorage.removeItem('email');
       }
 
       // Navegar al Dashboard

@@ -12,7 +12,7 @@ import { Usuario } from '../../models/usuario.model';
 export class SidebarComponent implements OnInit {
   menuItems: any[];
   public usuario: Usuario;
-
+  public imgUrl = '';
 
   constructor(
     private sideBarServices: SidebarService,
@@ -20,7 +20,8 @@ export class SidebarComponent implements OnInit {
   ) { 
     this.menuItems = sideBarServices.menu;
     //no hace falta poner imagenUrl() porque es un get
-    this.usuario = this.usuarioService.usuario;
+    // this.imgUrl = usuarioService.usuario.imagenUrl;
+    this.usuario = usuarioService.usuario;
   }
 
   ngOnInit(): void {
