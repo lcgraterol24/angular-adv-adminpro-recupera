@@ -1,11 +1,13 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, map, tap } from "rxjs/operators";
+import { catchError, delay, map, tap } from "rxjs/operators";
 
 import { environment } from '../../environments/environment';
 
 import { registerForm } from "../interfaces/register-form-interfaces";
 import { LoginForm } from "../interfaces/login-form-interface";
+import { CargarUsuario } from "../interfaces/cargar-usuarios.interface";
+
 import { Observable, of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario } from "../models/usuario.model";
@@ -28,12 +30,22 @@ export class UsuarioService {
   ) { }
 
 
+  /**
+   * Obtengo el token cada vez que se ejecuta este services
+   */
   get token():string{
     return localStorage.getItem('token') || '';
   }
 
+  /**
+   * Obtengo el id del usuario cada vez que se llama a este servicio
+   */
   get uid():string{
     return this.usuario.uid || '';
+  }
+
+  get headers(){
+    return {headers: {'x-token': this.token}} 
   }
 
 
@@ -138,4 +150,20 @@ export class UsuarioService {
                         );
   }
 
+  cargarUsuarios(desde: number = 0){
+
+    const url = `${base_url}/usuarios?desde=${desde}`
+    return this.http.get<CargarUsuario>(url, this.headers).pipe(
+      map(resp =>{
+        const usuarios = resp.usuarios.map(user =>new Usuario(user.nombre, user.email, user.google, user.img , user.role, user.uid)
+        );
+        return {
+          total: resp.total,
+          usuarios
+        };
+        
+ 
+      })
+    )
+  }
 }
