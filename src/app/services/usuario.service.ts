@@ -118,13 +118,11 @@ export class UsuarioService {
   }
 
   actualizarPerfilUsuario(data:{ email: string, nombre: string, role: string}){
-
     data = {
       ...data,
       role: this.usuario.role
     }
-    
-    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {headers: {'x-token': this.token}})
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, this.headers)
   }
 
   login(formData: LoginForm){
@@ -165,5 +163,15 @@ export class UsuarioService {
  
       })
     )
+  }
+
+  eliminarUsuario(users: Usuario){
+
+    const url = `${base_url}/usuarios/${users.uid}`
+    return this.http.delete(url, this.headers);
+  }
+
+  guardarUsuario(usuario: Usuario){
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers)
   }
 }
