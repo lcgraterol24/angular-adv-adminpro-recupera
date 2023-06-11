@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ImagenPipe } from './pipes/imagen.pipe'; //no lo importamos acá para que no lo cargue carda vez que se llama. Para eso creamos un modulo a aparte
 
 
 

@@ -153,6 +153,7 @@ export class UsuarioService {
     const url = `${base_url}/usuarios?desde=${desde}`
     return this.http.get<CargarUsuario>(url, this.headers).pipe(
       map(resp =>{
+        //aca transformo a una instancia de Usuario (class) porque implementaré metodos sobre ella, Podría ser una interfax tamb
         const usuarios = resp.usuarios.map(user =>new Usuario(user.nombre, user.email, user.google, user.img , user.role, user.uid)
         );
         return {
