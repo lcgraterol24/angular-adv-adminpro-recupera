@@ -44,7 +44,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     )
     .subscribe(img =>{
       //para cargar la imagen actual en la tabla
-      console.log("img ", img);
+      // console.log("img ", img);
       this.cargarUsuarios();
     })
   }

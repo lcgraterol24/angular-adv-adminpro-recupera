@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HospitalService } from "../../../../services/hospital.service";
 import { Hospital } from 'src/app/models/hospital.model';
 import Swal from "sweetalert2";
@@ -13,7 +13,7 @@ import { BusquedasService } from 'src/app/services/busquedas.service';
   styles: [
   ]
 })
-export class HospitalesComponent implements OnInit {
+export class HospitalesComponent implements OnInit, OnDestroy {
 
   public hospitales: Hospital[] = [];
   public cargando: boolean = true;
@@ -38,6 +38,11 @@ export class HospitalesComponent implements OnInit {
       console.log("img ", img);
       this.cargarHospitales();
     })
+  }
+
+  //para evitar fugas de memoria que se destruya la subscricion una vez obetnida la img
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
   }
 
   cargarHospitales(){
