@@ -20,6 +20,7 @@ import { HospitalesComponent } from './mantenimientos/hospitales/hospitales/hosp
 import { MedicosComponent } from './mantenimientos/medicos/medicos/medicos.component';
 import { PipesModule } from "../pipes/pipes.module";
 import { MedicoIdComponent } from './mantenimientos/medicoId/medico-id.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
 
 
 
@@ -37,6 +38,7 @@ import { MedicoIdComponent } from './mantenimientos/medicoId/medico-id.component
     HospitalesComponent,
     MedicosComponent,
     MedicoIdComponent,
+    BusquedaComponent,
   ],
   exports: [
     DashboardComponent,

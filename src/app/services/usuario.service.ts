@@ -37,6 +37,10 @@ export class UsuarioService {
     return localStorage.getItem('token') || '';
   }
 
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE'{
+    return this.usuario.role;
+  }
+
   /**
    * Obtengo el id del usuario cada vez que se llama a este servicio
    */
@@ -53,18 +57,10 @@ export class UsuarioService {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     this.router.navigateByUrl('/login');
-    
-    // google.accounts.id.revoke('lgraterol@experta.com.ar' || 'lcgraterol@gmail.com', ()=>{
-      
-    // })
-    // const email=localStorage.getItem('email')|| '';
-    // google.accounts.id.revoke('lcgraterol@gmail.com',()=> {
-    //   // this.ngZone.run(()=>{
-    //     this.router.navigateByUrl('/login');
-    //   // })
-    //   localStorage.removeItem('token');
-    //   localStorage.removeItem('email');
-    // })
+
+    //Borrar Menu
+    localStorage.removeItem('menu');
+
   
   }
 
@@ -77,7 +73,7 @@ export class UsuarioService {
       }
     }).pipe(
       map((resp:any)=>{
-        localStorage.setItem('token', resp.token);
+        this.guardarLocalStorage(resp.token, resp.menu)
 
         //como desestructurar la instancia del usuario * mejor practica*
         const {
@@ -106,12 +102,18 @@ export class UsuarioService {
     );
   }
 
+  guardarLocalStorage(token: string, menu: any){
+    localStorage.setItem('token', token);
+    //en la peticion de login viene el menu (ver backend controller auth.js)
+    localStorage.setItem('menu', JSON.stringify(menu) );
+  }
+
   crearUsuario(formData: registerForm): Observable<any>{
     return this.http.post(`${base_url}/usuarios`, formData)
                           .pipe(
                             tap(
                               (resp: any) =>{
-                                localStorage.setItem('token', resp.token)
+                                this.guardarLocalStorage(resp.token, resp.menu)
                               }
                             )
                           );
@@ -130,7 +132,7 @@ export class UsuarioService {
                           .pipe(
                             tap(
                               (resp: any) =>{
-                                localStorage.setItem('token', resp.token)
+                                this.guardarLocalStorage(resp.token, resp.menu)
                               }
                             )
                           );
@@ -142,7 +144,7 @@ export class UsuarioService {
                         .pipe(
                           tap(
                             (resp: any) =>{
-                              localStorage.setItem('token', resp.token)
+                              this.guardarLocalStorage(resp.token, resp.menu)
                             }
                           )
                         );

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
 import { UsuarioService } from '../../services/usuario.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,8 @@ export class HeaderComponent implements OnInit {
   public imgUrl = '';
 
   constructor(
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private router: Router
   ) { 
     //no hace falta poner imagenUrl() porque es un get
     this.imgUrl = usuarioService.usuario.imagenUrl;
@@ -29,6 +31,14 @@ export class HeaderComponent implements OnInit {
     this.usuarioService.logout();
   }
 
-  
+  buscar(termino: string){
+
+    if(termino.length === 0){
+      return;
+    }
+
+    this.router.navigateByUrl(`dashboard/buscar/${termino}`)
+    
+  }
 
 }

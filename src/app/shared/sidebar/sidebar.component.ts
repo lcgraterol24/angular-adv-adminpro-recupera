@@ -10,15 +10,17 @@ import { Usuario } from '../../models/usuario.model';
   ]
 })
 export class SidebarComponent implements OnInit {
-  menuItems: any[];
+  // menuItems: any[];
   public usuario: Usuario;
   public imgUrl = '';
 
   constructor(
-    private sideBarServices: SidebarService,
+    public sideBarServices: SidebarService,
     private usuarioService: UsuarioService
   ) { 
-    this.menuItems = sideBarServices.menu;
+
+    //ya no voy a usar el this.menuItems porque el meníu ya viene el servicio de sideBarServices 
+    // this.menuItems = sideBarServices.menu;
     //no hace falta poner imagenUrl() porque es un get
     // this.imgUrl = usuarioService.usuario.imagenUrl;
     this.usuario = usuarioService.usuario;
