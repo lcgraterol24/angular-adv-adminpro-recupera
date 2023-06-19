@@ -1,3 +1,10 @@
+# INICIAR PROYECTO
+
+npm run start //levanta el proyecto angular de forma local apuntando al BACKEND LOCAL
+//(debe estar previamente levantado para que funcione: npm run start:dev con consola ej: powershell, usando npm run start:dev - reviosar backend)
+
+npm run start:main // levanta el proyecto angular de forma local apuntando al BACKEND EN RAILWAY (Hosting)
+
 # Adminpro
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.9.
